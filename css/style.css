@@ -1,0 +1,188 @@
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+
+/* CORES GRAFITE + BRONZE FRIO */
+:root {
+  --bg: #1C1C1C;
+  --text: #EDE9E4;
+  --primary: #7A6652;
+  --secondary: #9E8468;
+  --highlight: #BDA485;
+  --card-bg: #272727;
+  --border: #3C3C3C;
+}
+
+/* BODY */
+body { background: var(--bg); color: var(--text); }
+
+/* INTRO */
+#intro {
+  position: fixed; inset:0;
+  background: var(--bg);
+  display: flex; justify-content:center; align-items:center;
+  animation: fadeOut 1.5s ease 2s forwards;
+  z-index: 999;
+}
+@keyframes fadeOut { to { opacity:0; visibility:hidden; } }
+
+/* HERO */
+.hero {
+  text-align:center;
+  padding:100px 20px;
+  background: linear-gradient(135deg, #1C1C1C, #111111);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--primary);
+}
+.hero h1 { font-size: 36px; color: var(--highlight); text-shadow: 0 0 8px rgba(122,102,82,0.4); }
+.hero p { margin-top:10px; color: var(--secondary); font-weight:500; }
+.hero button {
+  margin-top: 25px;
+  padding: 12px 25px;
+  background: var(--primary);
+  border:none;
+  border-radius:25px;
+  color: #EDE9E4;
+  font-weight:bold;
+  cursor:pointer;
+  transition: 0.4s;
+}
+.hero button:hover {
+  background: var(--highlight);
+  color: #1C1C1C;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(122,102,82,0.45);
+}
+
+/* SOBRE */
+.sobre { padding:40px 20px; display:flex; justify-content:center; }
+.sobre-card {
+  background: var(--card-bg);
+  border-radius:15px;
+  padding:30px;
+  max-width:700px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+  transition: 0.3s;
+}
+.sobre-card:hover { transform: translateY(-5px); }
+
+/* FILTROS */
+.filtros {
+  display:flex; gap:15px; justify-content:center; padding:15px; flex-wrap:wrap;
+}
+.filtros button {
+  padding:10px 20px;
+  border-radius:25px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--highlight);
+  font-weight:bold;
+  cursor:pointer;
+  transition: 0.3s;
+}
+.filtros button:hover {
+  background: var(--primary);
+  color: #EDE9E4;
+  border-color: var(--primary);
+  box-shadow:0 0 15px rgba(122,102,82,0.3);
+}
+
+/* GRID PRODUTOS */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:20px;
+  padding:30px;
+}
+@media(max-width:1024px){ .grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:768px){ .grid{ grid-template-columns:1fr; } }
+
+/* CARD */
+.card {
+  background: var(--card-bg);
+  border-radius:15px;
+  overflow:hidden;
+  transition:0.4s;
+  cursor:pointer;
+  border:1px solid var(--border);
+  position: relative;
+  opacity:0;
+  animation: fadeUp 0.8s forwards;
+}
+.card img {
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  transition:0.4s;
+}
+.card .info {
+  padding:10px;
+  font-weight:600;
+  color: var(--text);
+}
+.card:hover {
+  transform: scale(1.05);
+  border-color: var(--primary);
+  box-shadow:0 0 25px rgba(122,102,82,0.3);
+}
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } from { opacity:0; transform:translateY(20px); } }
+
+/* MODAL */
+.modal {
+  display:none;
+  position:fixed; inset:0;
+  background: rgba(10,10,10,0.95);
+  justify-content:center; align-items:center;
+}
+.modal-content {
+  background: var(--card-bg);
+  padding:25px;
+  border-radius:15px;
+  width:90%; max-width:400px;
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow:0 15px 30px rgba(0,0,0,0.7);
+}
+.modal-content span {
+  font-size:24px;
+  cursor:pointer;
+  position:absolute;
+  top:10px; right:15px;
+  color: var(--secondary);
+}
+.modal-content button {
+  width:100%; margin-top:15px; padding:12px;
+  background: var(--primary);
+  border:none; border-radius:10px;
+  color: #EDE9E4; font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+.modal-content button:hover {
+  background: var(--highlight);
+  color: #1C1C1C;
+  transform:scale(1.05);
+}
+
+/* GALERIA MODAL */
+#modal-galeria { display:flex; gap:8px; margin-top:15px; justify-content:center; }
+#modal-galeria img { width:50px; cursor:pointer; border-radius:5px; transition:0.3s; border: 1px solid var(--border); }
+#modal-galeria img:hover { transform:scale(1.1); border-color: var(--primary); }
+
+/* WHATSAPP FIXO */
+.whatsapp-fixo {
+  position: fixed; bottom:20px; right:20px;
+  background: #25D366;
+  padding:15px;
+  border-radius:50%;
+  color: #fff;
+  font-size:22px;
+  box-shadow:0 0 20px rgba(37,211,102,0.4);
+  cursor:pointer;
+  animation: pulse 2s infinite;
+}
+.whatsapp-fixo:hover { background: #1ebe5d; color: #fff; transform:scale(1.1); }
+@keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.1);} 100%{transform:scale(1);} }
+Só esse bloco substituído — verde oficial do WhatsApp (#25D366) com hover levemente'

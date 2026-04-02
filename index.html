@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MR Injetados</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>MR INJETADOS</h1>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>MR INJETADOS | Catalogo</h1>
+    <p>Produção profissional para marcas exigentes</p>
+    <button onclick="abrirWhatsGeral()"><i class="fab fa-whatsapp"></i> Falar no WhatsApp</button>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="sobre">
+  <div class="sobre-card">
+    <h2>Sobre a empresa</h2>
+    <p>
+      Especializada na fabricação de solados, a MR Injetados entrega qualidade,
+      resistência e acabamento premium para o mercado calçadista.
+    </p>
+  </div>
+</section>
+
+<!-- FILTROS -->
+<section class="filtros">
+  <button onclick="filtrar('todos')">Todos</button>
+  <button onclick="filtrar('bico-fino')">Bico fino</button>
+  <button onclick="filtrar('rasteirinha')">Rasteirinha</button>
+</section>
+
+<!-- PRODUTOS -->
+<section class="grid" id="produtos"></section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span onclick="fecharModal()">×</span>
+    <img id="modal-img">
+    <div id="modal-galeria"></div>
+    <h2 id="modal-nome"></h2>
+    <p id="modal-info"></p>
+    <button id="btn-whats"><i class="fab fa-whatsapp"></i> Pedir orçamento</button>
+  </div>
+</div>
+
+<!-- WHATS FIXO -->
+<a class="whatsapp-fixo" onclick="abrirWhatsGeral()"><i class="fab fa-whatsapp"></i></a>
+
+<script src="data/produtos.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
