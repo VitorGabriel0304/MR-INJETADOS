@@ -1,0 +1,236 @@
+# MR Injetados — Catálogo Digital
+
+> Catálogo digital profissional para a fábrica de solados **MR Injetados**, localizada em **Jaú — SP**.
+
+---
+
+## Descrição
+
+Página estática desenvolvida em **HTML, CSS e JavaScript puro** (sem frameworks) para apresentação do catálogo de solados injetados da MR Injetados.
+
+O site é responsivo, moderno e inclui:
+
+- Catálogo de produtos em grid com cards profissionais
+- Filtros por status (Disponível, Sob Encomenda, Novo)
+- Filtro por numeração e por faixa de preço
+- Campo de busca por nome ou código
+- Ordenação por nome e por preço
+- Modal de produto com seleção de numeração e quantidade
+- Integração direta com WhatsApp (mensagem pré-formatada)
+- Botão flutuante de WhatsApp
+- Loading screen animado
+- Design industrial dark (preto, cinza, prata)
+- Totalmente responsivo: celular, tablet e desktop
+
+---
+
+## Como usar
+
+1. Faça o download ou clone os arquivos do projeto
+2. Abra o arquivo `index.html` em qualquer navegador moderno
+3. Nenhuma instalação ou servidor é necessário — funciona 100% offline
+
+---
+
+## Estrutura das pastas
+
+```
+mr-injetados/
+├── index.html       → Estrutura HTML da página
+├── style.css        → Todos os estilos visuais
+├── script.js        → Lógica, produtos e interações
+├── README.md        → Esta documentação
+└── img/             → Pasta para as fotos dos produtos (criar manualmente)
+    ├── tr-001.jpg
+    ├── sp-002.jpg
+    └── ...
+```
+
+> **Importante:** A pasta `img/` não existe por padrão. Crie-a manualmente e adicione as fotos conforme o item abaixo.
+
+---
+
+## Como adicionar fotos dos produtos
+
+1. Crie a pasta `img/` na raiz do projeto (mesmo nível de `index.html`)
+2. Adicione as imagens nesta pasta
+   - Formatos aceitos: `.jpg`, `.jpeg`, `.png`, `.webp`
+   - Tamanho recomendado: 800×600 px ou proporção 4:3
+3. No arquivo `script.js`, localize o produto correspondente e preencha o campo `imagem`:
+
+```js
+{
+  id:     'tr-001',
+  nome:   'Tração Premium',
+  imagem: 'img/tr-001.jpg',   // ← Caminho relativo da imagem
+  ...
+}
+```
+
+Se o campo `imagem` estiver vazio (`''`), o site exibirá um placeholder automático com a mensagem "Foto em breve".
+
+---
+
+## Como adicionar produtos
+
+Abra o arquivo `script.js` e localize o array `PRODUTOS`. Adicione um novo objeto seguindo este modelo:
+
+```js
+{
+  id:          'xx-000',           // ID único (sem espaços)
+  codigo:      'XX-000',           // Código exibido no catálogo
+  nome:        'Nome do Modelo',   // Nome do produto
+  categoria:   'Casual',           // Categoria: Casual, Esportivo, Social, Infantil, Segurança, Feminino...
+  preco:       25.90,              // Preço por par (número, sem símbolo)
+  numeracoes:  [36, 37, 38, 39, 40, 41, 42],  // Numerações disponíveis
+  imagem:      'img/xx-000.jpg',   // Caminho da imagem ou '' para placeholder
+  status:      'disponivel',       // 'disponivel' | 'encomenda' | 'novo'
+  disponivel:  true,               // true = produto ativo | false = overlay "Indisponível"
+  novidade:    false,              // true = exibe badge "Novo" adicional
+},
+```
+
+**Valores válidos para `status`:**
+
+| Valor          | Exibição no site | Cor do badge |
+| -------------- | ---------------- | ------------ |
+| `'disponivel'` | Disponível       | Verde        |
+| `'encomenda'`  | Sob Encomenda    | Laranja      |
+| `'novo'`       | Novo             | Prata        |
+
+---
+
+## Como alterar preços
+
+Abra o arquivo `script.js`, localize o produto pelo campo `id` ou `nome` e altere o valor do campo `preco`:
+
+```js
+preco: 18.90,   // ← Altere este valor (number, ponto como decimal)
+```
+
+O preço é formatado automaticamente no padrão `R$ 18,90`.
+
+---
+
+## Como alterar o número de WhatsApp
+
+Abra o arquivo `script.js` e localize o bloco `CONFIG` no início do arquivo:
+
+```js
+const CONFIG = {
+  whatsapp: "5514996402866", // ← Altere aqui
+  empresa: "MR Injetados", // ← Nome na mensagem WhatsApp
+  moeda: "R$",
+};
+```
+
+**Formato do número:**
+
+```
+55   →  DDI do Brasil
+14   →  DDD da cidade (Jaú-SP)
+99640-2866  →  Número do celular (sem traço ou espaço)
+
+Resultado: 5514996402866
+```
+
+---
+
+## Como editar numerações
+
+Cada produto possui um array `numeracoes` com os tamanhos disponíveis:
+
+```js
+numeracoes: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44],
+```
+
+Para alterar, basta editar os valores do array. Os filtros de tamanho no catálogo são gerados automaticamente a partir desses valores — não é necessário editar nenhum outro arquivo.
+
+---
+
+## Como publicar no GitHub Pages
+
+### Passo a passo:
+
+1. Crie uma conta em [github.com](https://github.com) (se ainda não tiver)
+2. Clique em **New Repository**
+3. Nomeie o repositório (ex: `mr-injetados-catalogo`)
+4. Deixe como **Public**
+5. Clique em **Create repository**
+6. Faça upload dos arquivos:
+   - `index.html`
+   - `style.css`
+   - `script.js`
+   - `README.md`
+   - Pasta `img/` (com as fotos)
+7. Vá em **Settings → Pages**
+8. Em **Source**, selecione: `main` branch, pasta `/ (root)`
+9. Clique em **Save**
+10. Aguarde alguns minutos e acesse a URL gerada
+
+**URL do site ficará no formato:**
+
+```
+https://seu-usuario.github.io/mr-injetados-catalogo/
+```
+
+### Via Git (linha de comando):
+
+```bash
+git init
+git add .
+git commit -m "Catálogo MR Injetados"
+git branch -M main
+git remote add origin https://github.com/seu-usuario/mr-injetados-catalogo.git
+git push -u origin main
+```
+
+---
+
+## Tecnologias utilizadas
+
+- **HTML5** — Estrutura semântica
+- **CSS3** — Variáveis CSS, Grid, Flexbox, animações
+- **JavaScript ES6+** — Módulos, arrow functions, template literals
+- **Google Fonts** — Bebas Neue, Barlow Condensed, Barlow
+- **WhatsApp API** — Link `wa.me` com mensagem pré-formatada
+
+---
+
+## Compatibilidade de navegadores
+
+| Navegador        | Suporte  |
+| ---------------- | -------- |
+| Chrome 90+       | ✅ Total |
+| Firefox 88+      | ✅ Total |
+| Safari 14+       | ✅ Total |
+| Edge 90+         | ✅ Total |
+| Opera 76+        | ✅ Total |
+| Samsung Internet | ✅ Total |
+
+---
+
+## Personalização rápida
+
+| O que alterar           | Arquivo      | O que editar                       |
+| ----------------------- | ------------ | ---------------------------------- |
+| Número de WhatsApp      | `script.js`  | `CONFIG.whatsapp`                  |
+| Nome da empresa         | `script.js`  | `CONFIG.empresa`                   |
+| Adicionar produto       | `script.js`  | Array `PRODUTOS`                   |
+| Alterar preço           | `script.js`  | Campo `preco` do produto           |
+| Adicionar foto          | `script.js`  | Campo `imagem` + pasta `img/`      |
+| Mudar numerações        | `script.js`  | Campo `numeracoes` do produto      |
+| Alterar cores           | `style.css`  | Bloco `:root` — variáveis CSS      |
+| Alterar fontes          | `style.css`  | Variáveis `--font-*` + link Google |
+| Textos do hero / rodapé | `index.html` | Seções `.hero` e `.footer`         |
+
+---
+
+## Licença
+
+Projeto desenvolvido exclusivamente para **MR Injetados — Fábrica de Solados**.  
+Jaú — SP · Brasil · 2025
+
+---
+
+_Dúvidas ou suporte: entre em contato via WhatsApp (14) 99640-2866_

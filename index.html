@@ -1,73 +1,392 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MR INJETADOS</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MR Injetados — Fábrica de Solados em Jaú, SP. Catálogo digital de solados injetados." />
+  <title>MR Injetados — Fábrica de Solados | Jaú - SP</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<!-- INTRO -->
-<div id="intro">
-  <h1>MR INJETADOS</h1>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>MR INJETADOS | Catálogo</h1>
-    <p>Produção profissional para marcas exigentes</p>
-    <button onclick="abrirWhatsGeral()"><i class="fab fa-whatsapp"></i> Falar no WhatsApp</button>
-  </div>
-</section>
-
-<!-- SOBRE -->
-<section class="sobre">
-  <div class="sobre-card">
-    <h2>Sobre a empresa</h2>
-    <p>
-      Especializada na fabricação de solados, a MR Injetados entrega qualidade,
-      resistência e acabamento premium para o mercado calçadista.
-    </p>
-  </div>
-</section>
-
-<!-- FILTROS -->
-<section class="filtros">
-  <button onclick="filtrar('todos')">Todos</button>
-  <button onclick="filtrar('bico-fino')">Bico fino</button>
-  <button onclick="filtrar('rasteirinha')">Rasteirinha</button>
-</section>
-
-<!-- PRODUTOS -->
-<section class="grid" id="produtos"></section>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="fecharModal()">×</span>
-    <img id="modal-img">
-    <div id="modal-galeria"></div>
-    <h2 id="modal-nome"></h2>
-    <p id="modal-info"></p>
-    <button id="btn-whats"><i class="fab fa-whatsapp"></i> Pedir orçamento</button>
-  </div>
-</div>
- 
-
-<div class="footer-bottom">
-    <p>© 2026 MR INJETADOS. Todos os direitos reservados.</p>
+  <!-- ============================================================
+       LOADING SCREEN
+  ============================================================ -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-inner">
+      <div class="loading-logo">MR</div>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill"></div>
+      </div>
+      <p class="loading-label">Carregando catálogo...</p>
+    </div>
   </div>
 
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
+  <header class="header" id="header">
+    <div class="header-inner container">
+      <div class="brand">
+        <div class="brand-logo">
+          <span class="brand-logo-mr">MR</span>
+          <span class="brand-logo-dot"></span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MR Injetados</span>
+          <span class="brand-sub">Fábrica de Solados · Jaú — SP</span>
+        </div>
+      </div>
 
+      <nav class="nav">
+        <a href="#catalogo" class="nav-link">Catálogo</a>
+        <a href="#sobre" class="nav-link">Sobre</a>
+        <a href="#contato" class="nav-link">Contato</a>
+        <a href="https://wa.me/5514996402866" target="_blank" class="nav-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+      </nav>
 
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
 
-<!-- WHATSAPP FIXO -->
-<a class="whatsapp-fixo" onclick="abrirWhatsGeral()"><i class="fab fa-whatsapp"></i></a>
+    <!-- Mobile nav -->
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="#catalogo" class="mobile-nav-link">Catálogo</a>
+      <a href="#sobre" class="mobile-nav-link">Sobre</a>
+      <a href="#contato" class="mobile-nav-link">Contato</a>
+      <a href="https://wa.me/5514996402866" target="_blank" class="mobile-nav-link mobile-nav-wpp">WhatsApp</a>
+    </div>
+  </header>
 
-<script src="data/produtos.js"></script>
-<script src="js/script.js"></script>
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-noise"></div>
+
+    <div class="hero-inner container">
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        Catálogo Digital 2025
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-title-line">Solados</span>
+        <span class="hero-title-line accent">de Alta</span>
+        <span class="hero-title-line">Qualidade</span>
+      </h1>
+      <p class="hero-desc">
+        Fabricação própria em Jaú — SP. Solados injetados com precisão industrial para calçados de todos os segmentos.
+      </p>
+      <div class="hero-actions">
+        <a href="#catalogo" class="btn btn-primary">Ver Catálogo</a>
+        <a href="https://wa.me/5514996402866" target="_blank" class="btn btn-ghost">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Fale Conosco
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num">+50</span>
+          <span class="hero-stat-label">Modelos</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">100%</span>
+          <span class="hero-stat-label">Injetado</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">Jaú</span>
+          <span class="hero-stat-label">SP — Brasil</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span>Role para ver</span>
+      <div class="hero-scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CATÁLOGO
+  ============================================================ -->
+  <section class="catalog-section" id="catalogo">
+    <div class="container">
+
+      <!-- Section heading -->
+      <div class="section-heading">
+        <span class="section-tag">Produtos</span>
+        <h2 class="section-title">Nosso Catálogo</h2>
+        <p class="section-desc">Explore nossa linha completa de solados injetados. Use os filtros para encontrar o modelo ideal.</p>
+      </div>
+
+      <!-- Controls bar -->
+      <div class="controls-bar">
+
+        <!-- Search -->
+        <div class="search-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Buscar modelo ou código..." />
+          <button class="search-clear" id="search-clear" aria-label="Limpar busca">×</button>
+        </div>
+
+        <!-- Sort -->
+        <div class="sort-wrap">
+          <label class="sort-label" for="sort-select">Ordenar:</label>
+          <select id="sort-select" class="sort-select">
+            <option value="default">Padrão</option>
+            <option value="name-asc">Nome (A–Z)</option>
+            <option value="name-desc">Nome (Z–A)</option>
+            <option value="price-asc">Menor preço</option>
+            <option value="price-desc">Maior preço</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Filters row -->
+      <div class="filters-row">
+
+        <!-- Status filter -->
+        <div class="filter-group">
+          <span class="filter-group-label">Status:</span>
+          <div class="filter-chips" id="status-filters">
+            <button class="chip active" data-filter="status" data-value="all">Todos</button>
+            <button class="chip" data-filter="status" data-value="disponivel">Disponível</button>
+            <button class="chip" data-filter="status" data-value="encomenda">Sob Encomenda</button>
+            <button class="chip" data-filter="status" data-value="novo">Novo</button>
+          </div>
+        </div>
+
+        <!-- Size filter -->
+        <div class="filter-group">
+          <span class="filter-group-label">Numeração:</span>
+          <div class="filter-chips" id="size-filters">
+            <button class="chip active" data-filter="size" data-value="all">Todas</button>
+          </div>
+        </div>
+
+        <!-- Price filter -->
+        <div class="filter-group">
+          <span class="filter-group-label">Preço:</span>
+          <div class="filter-chips" id="price-filters">
+            <button class="chip active" data-filter="price" data-value="all">Todos</button>
+            <button class="chip" data-filter="price" data-value="0-20">Até R$ 20</button>
+            <button class="chip" data-filter="price" data-value="20-35">R$ 20 – R$ 35</button>
+            <button class="chip" data-filter="price" data-value="35-999">Acima de R$ 35</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Results count -->
+      <div class="results-bar">
+        <span id="results-count" class="results-count">Carregando...</span>
+        <button id="clear-filters" class="clear-filters-btn">Limpar filtros</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="product-grid" id="product-grid">
+        <!-- Cards injetados via JS -->
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state" style="display:none;">
+        <div class="empty-icon">⬜</div>
+        <h3>Nenhum produto encontrado</h3>
+        <p>Tente ajustar os filtros ou limpar a busca.</p>
+        <button class="btn btn-primary" id="empty-clear-btn">Limpar filtros</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOBRE
+  ============================================================ -->
+  <section class="sobre-section" id="sobre">
+    <div class="container">
+      <div class="sobre-grid">
+        <div class="sobre-content">
+          <span class="section-tag">Quem somos</span>
+          <h2 class="section-title">Tradição em<br/>solados injetados</h2>
+          <p class="sobre-text">
+            A <strong>MR Injetados</strong> é uma fábrica especializada na produção de solados injetados, localizada em Jaú — SP, polo calçadista do interior paulista.
+          </p>
+          <p class="sobre-text">
+            Nossos produtos atendem indústrias calçadistas, ateliers e sapateiros com qualidade, precisão e variedade de modelos para todos os segmentos.
+          </p>
+          <div class="sobre-features">
+            <div class="sobre-feature">
+              <div class="sobre-feature-icon">⚙</div>
+              <div>
+                <strong>Fabricação Própria</strong>
+                <span>Controle total do processo produtivo</span>
+              </div>
+            </div>
+            <div class="sobre-feature">
+              <div class="sobre-feature-icon">📦</div>
+              <div>
+                <strong>Entrega Ágil</strong>
+                <span>Pedidos sob encomenda e pronta entrega</span>
+              </div>
+            </div>
+            <div class="sobre-feature">
+              <div class="sobre-feature-icon">🔩</div>
+              <div>
+                <strong>Alta Durabilidade</strong>
+                <span>Material injetado com resistência industrial</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sobre-visual">
+          <div class="sobre-visual-box">
+            <div class="sobre-visual-inner">
+              <div class="sobre-badge-large">MR</div>
+              <p class="sobre-visual-city">Jaú — SP</p>
+              <p class="sobre-visual-label">Fábrica de Solados</p>
+            </div>
+            <div class="sobre-visual-lines"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTATO / FOOTER
+  ============================================================ -->
+  <footer class="footer" id="contato">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="footer-logo">MR</div>
+            <p class="footer-brand-name">MR Injetados</p>
+            <p class="footer-brand-sub">Fábrica de Solados · Jaú — SP</p>
+            <a href="https://wa.me/5514996402866" target="_blank" class="footer-wpp-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              (14) 99640-2866
+            </a>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">Catálogo</h4>
+            <ul class="footer-list">
+              <li><a href="#catalogo">Todos os modelos</a></li>
+              <li><a href="#catalogo">Disponíveis</a></li>
+              <li><a href="#catalogo">Sob encomenda</a></li>
+              <li><a href="#catalogo">Novidades</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">Empresa</h4>
+            <ul class="footer-list">
+              <li><a href="#sobre">Sobre nós</a></li>
+              <li><a href="#contato">Contato</a></li>
+              <li><a href="https://wa.me/5514996402866" target="_blank">Fazer pedido</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">Contato</h4>
+            <ul class="footer-list footer-contact">
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Jaú — SP, Brasil
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                (14) 99640-2866
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2025 MR Injetados — Fábrica de Solados. Todos os direitos reservados.</p>
+        <p class="footer-bottom-city">Jaú — SP · Brasil</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       FLOATING WHATSAPP BUTTON
+  ============================================================ -->
+  <a href="https://wa.me/5514996402866" target="_blank" class="float-wpp" id="float-wpp" aria-label="Contato via WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="float-wpp-label">Fale conosco</span>
+  </a>
+
+  <!-- ============================================================
+       MODAL DE PRODUTO
+  ============================================================ -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modal-close" aria-label="Fechar">×</button>
+
+      <div class="modal-inner">
+        <!-- Imagem -->
+        <div class="modal-img-wrap">
+          <img id="modal-img" src="" alt="" class="modal-img" />
+          <div class="modal-badge-wrap" id="modal-badge-wrap"></div>
+        </div>
+
+        <!-- Conteúdo -->
+        <div class="modal-content">
+          <div class="modal-meta">
+            <span class="modal-code" id="modal-code"></span>
+            <span class="modal-category" id="modal-category"></span>
+          </div>
+          <h2 class="modal-title" id="modal-title"></h2>
+          <div class="modal-price-row">
+            <span class="modal-price" id="modal-price"></span>
+            <span class="modal-price-label">por par</span>
+          </div>
+
+          <!-- Seleção de numeração -->
+          <div class="modal-sizes">
+            <p class="modal-sizes-label">Selecione a numeração:</p>
+            <div class="modal-size-grid" id="modal-size-grid"></div>
+          </div>
+
+          <!-- Pedido mínimo -->
+          <div class="modal-qty" id="modal-qty-wrap">
+            <label for="modal-qty" class="modal-qty-label">Quantidade (pares):</label>
+            <div class="modal-qty-ctrl">
+              <button class="modal-qty-btn" id="qty-minus">−</button>
+              <input type="number" id="modal-qty" class="modal-qty-input" value="1" min="1" max="9999" />
+              <button class="modal-qty-btn" id="qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-primary btn-full" id="modal-wpp-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Solicitar no WhatsApp
+            </button>
+          </div>
+
+          <p class="modal-notice" id="modal-notice"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
