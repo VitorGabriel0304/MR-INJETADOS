@@ -83,11 +83,18 @@ def login():
         return "ERRO DE SEGURANÇA: ADMIN_PASS não configurada no ambiente.", 500
 
     if request.method == "POST":
-        user = request.form.get("user")
-        senha = request.form.get("senha")
+        user = (request.form.get("user") or "").strip()
+        senha = (request.form.get("senha") or "").strip()
+        
+        # Log de segurança/debug (não loga a senha completa por segurança)
+        print(f"Tentativa de login: Usuário '{user}' | ADMIN_USER config: '{ADMIN_USER}'")
+        
         if user == ADMIN_USER and senha == ADMIN_PASS:
+            print("Login bem-sucedido!")
             session["logado"] = True
             return redirect(url_for("admin"))
+        else:
+            print("Login falhou: Usuário ou senha incorretos.")
     return render_template("login.html")
 
 @app.route("/admin")
