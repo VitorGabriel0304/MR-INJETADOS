@@ -1,0 +1,6 @@
+Flask==3.0.0
+gunicorn
+psycopg2-binary
+python-dotenv
+Flask-WTF
+cloudinary

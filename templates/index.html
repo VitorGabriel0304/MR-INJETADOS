@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MR INJETADOS - Catálogo Profissional de Calçados em Jaú-SP. Qualidade industrial em sapatilhas, rasteirinhas e saltos.">
+    <meta name="keywords" content="calçados jaú, injetados jaú, sapatilhas atacado, mr injetados, solados injetados">
+    <title>MR INJETADOS | Catálogo Profissional 2026</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Acesso Admin Externo (Z-INDEX SUPERIOR) -->
+    <div style="position: fixed; top: 15px; right: 20px; z-index: 9999;">
+        <a href="{{ url_for('login') }}" class="admin-badge" style="position: static; opacity: 1; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 3px; border: 1px solid var(--borda);">ADMIN ACCESS</a>
+    </div>
+
+    <!-- Botão de Contato Flutuante -->
+    <a href="https://wa.me/5514996402866?text=Olá! Gostaria de falar com o atendimento da MR Injetados." 
+       class="btn-flutuante-wpp" target="_blank" aria-label="Falar pelo WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span>WHATSAPP</span>
+    </a>
+
+    <!-- Visualizador de Imagem (Lightbox) -->
+    <div id="lightbox" class="lightbox">
+        <span class="btn-voltar" onclick="fecharImagem()">
+            <i class="fas fa-arrow-left"></i> VOLTAR
+        </span>
+        <img id="img-full" src="" alt="Produto em destaque">
+    </div>
+
+    <!-- Cabeçalho Glassmorphism -->
+    <header class="header-glass">
+        <div class="header-content">
+            <div class="marca-container">
+                <h1 class="logo">MR <span>INJETADOS</span></h1>
+                <p class="subtitulo">JAÚ-SP | QUALIDADE INDUSTRIAL</p>
+            </div>
+
+            <div class="busca-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="buscaModelo" placeholder="O QUE VOCÊ PROCURA?">
+            </div>
+        </div>
+
+        <nav class="filtros-container">
+            <button class="filtro-btn ativo" data-tipo="todos">TODOS</button>
+            {% for cat in categorias %}
+            <button class="filtro-btn" data-tipo="{{ cat.nome }}">{{ cat.nome|upper }}</button>
+            {% endfor %}
+        </nav>
+    </header>
+
+    <!-- Grid do Catálogo -->
+    <main class="catalogo-grid">
+        {% for produto in produtos %}
+        <article class="card-vidro" data-categoria="{{ produto.categoria }}">
+            <div class="carrossel-container" data-index="0">
+                <div class="slides">
+                    <img src="{{ produto.imagem1 }}" onclick="abrirImagem(this)" alt="{{ produto.nome }}" loading="lazy">
+                    <img src="{{ produto.imagem2 }}" onclick="abrirImagem(this)" alt="{{ produto.nome }} - Detalhe" loading="lazy">
+                </div>
+
+                <button class="seta anterior" onclick="mudarSlide(this, -1)" aria-label="Imagem Anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="seta proximo" onclick="mudarSlide(this, 1)" aria-label="Próxima Imagem">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="indicadores">
+                    <span class="ponto ativo"></span>
+                    <span class="ponto"></span>
+                </div>
+            </div>
+
+            <div class="info">
+                <h3>{{ produto.nome }}</h3>
+                
+                <div class="specs">
+                    <p><span>MATERIAL</span> {{ produto.material }}</p>
+                    <p><span>TAMANHOS</span> {{ produto.numeracao }}</p>
+                </div>
+
+                <div class="card-footer">
+                    <span class="preco">R$ {{ produto.preco }}</span>
+                    <button class="btn-card-wpp" onclick="fazerPedido('{{ produto.nome }}')">
+                        <i class="fab fa-whatsapp"></i> PEDIR
+                    </button>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </main>
+
+    <!-- Rodapé Profissional -->
+    <footer style="background: #050505; border-top: 1px solid var(--borda); padding: 80px 6% 40px; margin-top: 100px; text-align: center;">
+        <h2 class="logo" style="margin-bottom: 20px;">MR <span>INJETADOS</span></h2>
+        <p style="color: var(--texto-secundario); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">Excelência Industrial em Jaú-SP</p>
+        
+        <div style="display: flex; justify-content: center; gap: 30px; margin: 40px 0; font-size: 10px; letter-spacing: 1px; color: var(--texto-secundario);">
+            <span>CONTATO: (14) 99640-2866</span>
+            <span>EMAIL: CONTATO@MRINJETADOS.COM.BR</span>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.03); padding-top: 30px; font-size: 9px; color: #444; letter-spacing: 1px;">
+            &copy; 2026 MR INJETADOS. TODOS OS DIREITOS RESERVADOS. <br>
+            PLATAFORMA VITRINE PROFISSIONAL
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
+

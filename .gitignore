@@ -1,0 +1,16 @@
+# Segurança e Credenciais
+.env
+
+# Banco de Dados Local
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+ENV/
+
+# Sistema
+.DS_Store
+Thumbs.db

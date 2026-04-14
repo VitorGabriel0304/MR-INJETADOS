@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin | MR INJETADOS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="display: flex; align-items: center; justify-content: center; height: 100vh; background: #000; margin: 0;">
+
+    <div style="background: var(--card); border: 1px solid var(--borda); padding: 40px; width: 100%; max-width: 400px; border-radius: 5px; text-align: center;">
+        <h1 class="logo" style="margin-bottom: 10px;">MR <span>ADMIN</span></h1>
+        <p class="subtitulo" style="margin-bottom: 30px;">ACESSO RESTRITO</p>
+
+        <form method="POST" action="{{ url_for('login') }}" style="display: flex; flex-direction: column; gap: 20px; text-align: left;">
+            <div class="form-group">
+                <label>USUÁRIO</label>
+                <input name="user" type="text" placeholder="admin" required autofocus style="background: #111; border: 1px solid var(--borda); padding: 12px; color: white; border-radius: 3px;">
+            </div>
+
+            <div class="form-group">
+                <label>SENHA</label>
+                <input name="senha" type="password" placeholder="••••••" required style="background: #111; border: 1px solid var(--borda); padding: 12px; color: white; border-radius: 3px;">
+            </div>
+
+            <button type="submit" class="btn-submit" style="width: 100%; margin-top: 10px; background: white; color: black; border: none; padding: 15px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;">
+                ACESSAR PAINEL
+            </button>
+        </form>
+
+        <a href="{{ url_for('index') }}" style="display: inline-block; margin-top: 30px; color: var(--texto-secundario); text-decoration: none; font-size: 10px; letter-spacing: 2px; font-weight: 800; text-transform: uppercase;">
+            <i class="fas fa-arrow-left"></i> VOLTAR AO CATÁLOGO
+        </a>
+    </div>
+
+</body>
+</html>
