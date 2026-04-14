@@ -34,12 +34,12 @@ if HAVE_CLOUDINARY:
 
 # Configurações de Admin (Sem valores padrão no código para segurança)
 ADMIN_USER = os.environ.get("ADMIN_USER", "admin").strip().lower()
-ADMIN_PASS = os.environ.get("ADMIN_PASS") # OBRIGATÓRIO NO ENV
+ADMIN_PASS = (os.environ.get("ADMIN_PASS") or "").strip()
 
 # Log de inicialização para depuração no Railway
 print("--- CONFIGURAÇÃO DE AMBIENTE ---")
-print(f"ADMIN_USER carregado: {'SIM' if ADMIN_USER else 'NÃO'} (valor: '{ADMIN_USER}')")
-print(f"ADMIN_PASS carregado: {'SIM' if ADMIN_PASS else 'NÃO'}")
+print(f"ADMIN_USER carregado: '{ADMIN_USER}' (tamanho: {len(ADMIN_USER)})")
+print(f"ADMIN_PASS carregado: {'SIM' if ADMIN_PASS else 'NÃO'} (tamanho: {len(ADMIN_PASS)})")
 print(f"DATABASE_URL presente: {'SIM' if os.environ.get('DATABASE_URL') else 'NÃO'}")
 print("--------------------------------")
 
@@ -93,15 +93,21 @@ def login():
         user = (request.form.get("user") or "").strip().lower()
         senha = (request.form.get("senha") or "").strip()
         
-        # Log de segurança/debug (não loga a senha completa por segurança)
-        print(f"Tentativa de login: Usuário processado '{user}'")
+        # Log de debug mais detalhado
+        pass_len = len(ADMIN_PASS) if ADMIN_PASS else 0
+        input_len = len(senha)
+        print(f"DEBUG: Tentativa login usuário '{user}' | Senha digitada tam: {input_len} | Senha config tam: {pass_len}")
         
         if user == ADMIN_USER and senha == ADMIN_PASS:
             print("Login bem-sucedido!")
             session["logado"] = True
             return redirect(url_for("admin"))
         else:
-            print("Login falhou: Usuário ou senha incorretos.")
+            print("Login falhou:")
+            if user != ADMIN_USER:
+                print(f"  - Usuário não bate! Esperado: '{ADMIN_USER}' (tam: {len(ADMIN_USER)}), Recebido: '{user}' (tam: {len(user)})")
+            if senha != ADMIN_PASS:
+                print(f"  - Senha não bate! Esperado tam: {len(ADMIN_PASS)}, Recebido tam: {len(senha)}")
     return render_template("login.html")
 
 @app.route("/admin")
