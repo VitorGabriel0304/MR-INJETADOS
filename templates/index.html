@@ -61,8 +61,20 @@
         <article class="card-vidro" data-categoria="{{ produto.categoria }}">
             <div class="carrossel-container" data-index="0">
                 <div class="slides">
+                    {% if produto.imagem1 %}
                     <img src="{{ produto.imagem1 }}" onclick="abrirImagem(this)" alt="{{ produto.nome }}" loading="lazy">
+                    {% endif %}
+                    
+                    {% if produto.imagem2 %}
                     <img src="{{ produto.imagem2 }}" onclick="abrirImagem(this)" alt="{{ produto.nome }} - Detalhe" loading="lazy">
+                    {% endif %}
+
+                    {% if not produto.imagem1 and not produto.imagem2 %}
+                    <div class="sem-imagem">
+                        <i class="fas fa-image"></i>
+                        <span>FOTO EM BREVE</span>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <button class="seta anterior" onclick="mudarSlide(this, -1)" aria-label="Imagem Anterior">

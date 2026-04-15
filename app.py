@@ -41,6 +41,10 @@ print("--- CONFIGURAÇÃO DE AMBIENTE ---")
 print(f"ADMIN_USER carregado: '{ADMIN_USER}' (tamanho: {len(ADMIN_USER)})")
 print(f"ADMIN_PASS carregado: {'SIM' if ADMIN_PASS else 'NÃO'} (tamanho: {len(ADMIN_PASS)})")
 print(f"DATABASE_URL presente: {'SIM' if os.environ.get('DATABASE_URL') else 'NÃO'}")
+print(f"HAVE_CLOUDINARY: {HAVE_CLOUDINARY}")
+if HAVE_CLOUDINARY:
+    print(f"CLOUD_NAME: {os.environ.get('CLOUD_NAME')}")
+    print(f"API_KEY presente: {'SIM' if os.environ.get('API_KEY') else 'NÃO'}")
 print("--------------------------------")
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
@@ -135,15 +139,22 @@ def add():
     file2 = request.files.get("foto2")
 
     try:
-        if file1 and HAVE_CLOUDINARY:
-            upload_result = cloudinary.uploader.upload(file1)
-            url1 = upload_result.get("secure_url")
-        
-        if file2 and HAVE_CLOUDINARY:
-            upload_result = cloudinary.uploader.upload(file2)
-            url2 = upload_result.get("secure_url")
+        if HAVE_CLOUDINARY:
+            if file1 and file1.filename != '':
+                print(f"Tentando upload foto1: {file1.filename}")
+                upload_result = cloudinary.uploader.upload(file1)
+                url1 = upload_result.get("secure_url")
+                print(f"Sucesso foto1: {url1}")
+            
+            if file2 and file2.filename != '':
+                print(f"Tentando upload foto2: {file2.filename}")
+                upload_result = cloudinary.uploader.upload(file2)
+                url2 = upload_result.get("secure_url")
+                print(f"Sucesso foto2: {url2}")
+        else:
+            print("AVISO: Cloudinary não instalado ou não configurado. Imagem não será salva.")
     except Exception as e:
-        print(f"ERRO CLOUDINARY: {e}")
+        print(f"ERRO CRÍTICO CLOUDINARY: {e}")
         # Prossegue sem as URLs de imagem se o upload falhar, evitando Erro 500
 
     data = (
