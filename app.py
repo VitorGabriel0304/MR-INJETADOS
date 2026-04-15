@@ -134,18 +134,22 @@ def add():
     file1 = request.files.get("foto1")
     file2 = request.files.get("foto2")
 
-    if file1 and HAVE_CLOUDINARY:
-        upload_result = cloudinary.uploader.upload(file1)
-        url1 = upload_result.get("secure_url")
-    
-    if file2 and HAVE_CLOUDINARY:
-        upload_result = cloudinary.uploader.upload(file2)
-        url2 = upload_result.get("secure_url")
+    try:
+        if file1 and HAVE_CLOUDINARY:
+            upload_result = cloudinary.uploader.upload(file1)
+            url1 = upload_result.get("secure_url")
+        
+        if file2 and HAVE_CLOUDINARY:
+            upload_result = cloudinary.uploader.upload(file2)
+            url2 = upload_result.get("secure_url")
+    except Exception as e:
+        print(f"ERRO CLOUDINARY: {e}")
+        # Prossegue sem as URLs de imagem se o upload falhar, evitando Erro 500
 
     data = (
         request.form.get("nome"),
         request.form.get("preco"),
-        request.form.get("categoria"),
+        request.form.get("categoria") or "",
         request.form.get("material"),
         request.form.get("numeracao"),
         url1,
