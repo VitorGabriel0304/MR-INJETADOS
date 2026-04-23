@@ -18,11 +18,19 @@ except ImportError:
 
 from flask import Flask, render_template, request, redirect, session, url_for
 from dotenv import load_dotenv
+import uuid
+from werkzeug.utils import secure_filename
 
 load_dotenv(override=True)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "mr-injetados-default-key-2026")
+
+# Configuração de Upload Local e Limite de Tamanho
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB max limit
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Cloudinary Config
 if HAVE_CLOUDINARY:
@@ -131,31 +139,47 @@ def add():
     if not session.get("logado"):
         return redirect(url_for("login"))
 
-    # Upload para o Cloudinary
+    # Upload process
     url1 = ""
     url2 = ""
     
     file1 = request.files.get("foto1")
     file2 = request.files.get("foto2")
 
-    try:
-        if HAVE_CLOUDINARY:
-            if file1 and file1.filename != '':
-                print(f"Tentando upload foto1: {file1.filename}")
-                upload_result = cloudinary.uploader.upload(file1)
-                url1 = upload_result.get("secure_url")
-                print(f"Sucesso foto1: {url1}")
-            
-            if file2 and file2.filename != '':
-                print(f"Tentando upload foto2: {file2.filename}")
-                upload_result = cloudinary.uploader.upload(file2)
-                url2 = upload_result.get("secure_url")
-                print(f"Sucesso foto2: {url2}")
-        else:
-            print("AVISO: Cloudinary não instalado ou não configurado. Imagem não será salva.")
-    except Exception as e:
-        print(f"ERRO CRÍTICO CLOUDINARY: {e}")
-        # Prossegue sem as URLs de imagem se o upload falhar, evitando Erro 500
+    def handle_upload(f):
+        if not f or f.filename == '':
+            return ""
+        
+        # Verifica se as credenciais do Cloudinary estão configuradas
+        has_cloudinary_keys = HAVE_CLOUDINARY and os.environ.get("CLOUD_NAME") and os.environ.get("API_KEY")
+        
+        try:
+            if has_cloudinary_keys:
+                print(f"Tentando upload Cloudinary: {f.filename}")
+                upload_result = cloudinary.uploader.upload(f)
+                secure_url = upload_result.get("secure_url")
+                print(f"Sucesso Cloudinary: {secure_url}")
+                return secure_url
+            else:
+                print("Cloudinary não configurado. Usando armazenamento local.")
+        except Exception as e:
+            print(f"ERRO CLOUDINARY: {e}. Usando armazenamento local (fallback).")
+            # Rewind file pointer just in case Cloudinary consumed it
+            f.seek(0)
+        
+        # Fallback para armazenamento local
+        print(f"Salvando imagem localmente: {f.filename}")
+        filename = secure_filename(f.filename)
+        # Adiciona UUID para evitar colisão de nomes
+        unique_filename = f"{uuid.uuid4().hex}_{filename}"
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+        f.save(filepath)
+        
+        # Retorna a URL relativa garantindo uso de barras invertidas na URL (padrão web)
+        return "/" + filepath.replace("\\", "/")
+
+    url1 = handle_upload(file1)
+    url2 = handle_upload(file2)
 
     data = (
         request.form.get("nome"),
@@ -174,6 +198,19 @@ def add():
 def delete(id):
     if not session.get("logado"):
         return redirect(url_for("login"))
+        
+    produto = execute_query("SELECT imagem1, imagem2 FROM produtos WHERE id=?", (id,), fetch=True)
+    
+    if produto and len(produto) > 0:
+        for img_url in [produto[0]['imagem1'], produto[0]['imagem2']]:
+            if img_url and img_url.startswith('/static/uploads/'):
+                filepath = img_url.lstrip('/')
+                if os.path.exists(filepath):
+                    try:
+                        os.remove(filepath)
+                    except Exception as e:
+                        print(f"Erro ao deletar imagem local {filepath}: {e}")
+
     execute_query("DELETE FROM produtos WHERE id=?", (id,))
     return redirect(url_for("admin"))
 
